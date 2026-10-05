@@ -1,0 +1,32 @@
+# Flash-free theme for Jellyfin behind nginx (inside your server { } block).
+# Why: Branding > Custom CSS is only applied after Jellyfin's JavaScript loads, so people first see the stock logo,
+# the blue spinner and the default login page. Injecting the stylesheet into index.html's <head> fixes that.
+# Replace jellyfin_upstream / jellyfin.example.com with yours. Put cgflix.css (+ addons) in /var/www/cgflix/.
+
+location /cgflix/ {
+    alias /var/www/cgflix/;
+    expires 7d;
+}
+
+location = /web/index.html {            # repeat the same block for "location = /web/"
+    proxy_pass https://jellyfin_upstream;
+    proxy_set_header Host jellyfin.example.com;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header Accept-Encoding "";          # sub_filter needs an uncompressed body
+    proxy_set_header If-None-Match "";            # never let browsers reuse a pre-theme index.html (304)
+    proxy_set_header If-Modified-Since "";
+    proxy_hide_header ETag;
+    proxy_hide_header Last-Modified;
+    proxy_hide_header Cache-Control;
+    add_header Cache-Control "no-store, max-age=0" always;
+    sub_filter_types text/html;
+    sub_filter_once on;
+    sub_filter '</head>' '<link rel="stylesheet" href="/cgflix/cgflix.css"><link rel="stylesheet" href="/cgflix/hss-upcoming-ptbr.css"><style>html,body{background-color:#07060a}</style><script defer src="/cgflix/hss-upcoming-ptbr.js"></script></head>';
+    sub_filter '<title>Jellyfin</title>' '<title>CGFLIX</title>';
+    sub_filter 'content="#202020"' 'content="#07060a"';
+}
+
+# Optional: your logo instead of Jellyfin's (header, drawer, dashboard), e.g. assets/cgflix-marca.svg
+#   .pageTitleWithDefaultLogo { background-image: url(/cgflix/your-logo.svg) !important; width: 7.4em !important; }
+#   img[src*="banner-light"], img[src*="banner-dark"], .adminDrawerLogo img { content: url(/cgflix/your-logo.svg) !important; }

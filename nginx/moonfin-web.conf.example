@@ -1,0 +1,34 @@
+# Moonfin Web (Moonbase plugin) served fast and clean by nginx (inside your server { } block).
+# Measured on our server: main.dart.wasm is 20.4 MB and Jellyfin sends it uncompressed. Pre-compressed (gzip -9) it is 6.7 MB.
+# 1) tools/moonfin-sync.sh copies the plugin's frontend to /var/www/moonfin-web/<version> and compresses it.
+# 2) index.html is served from that ORIGINAL copy: the one Jellyfin serves gets jellyfin-web scripts injected by the
+#    File Transformation plugin (loader.js, Media Bar, HSS), which 404 and throw "$ is not defined" inside Moonfin.
+# 3) Optional rebrand of the loading screen with sub_filter.
+
+location = /Moonfin/Web/ {
+    root /var/www/moonfin-web/current;
+    gzip_static off;                     # sub_filter needs the plain file
+    try_files /Moonfin/Web/index.html =404;
+    add_header Cache-Control "no-store, max-age=0" always;
+    sub_filter_types text/html;
+    sub_filter_once off;
+    sub_filter 'src="assets/assets/icons/moonfin_logo.svg"' 'src="/cgflix/cgflix-marca-v.svg"';
+    sub_filter '>Loading Moonfin<' '>Carregando<';
+    sub_filter '#101010' '#07060a';
+    sub_filter '</head>' '<style>.moonfin-loader__logo-wrap{width:min(62vw,380px)!important;height:auto!important}.moonfin-loader__logo{width:100%!important;height:auto!important;animation:pulse 1.8s ease-in-out infinite!important}@keyframes pulse{0%,100%{opacity:.72}50%{opacity:1}}</style></head>';
+}
+
+location ^~ /Moonfin/Web/ {
+    root /var/www/moonfin-web/current;
+    gzip_static on;
+    add_header Cache-Control "no-cache" always;      # revalidate (cheap 304s); file names are not hashed
+    try_files $uri @jellyfin;
+    location ~* [.]wasm$ { types { } default_type application/wasm;  gzip_static on; add_header Cache-Control "no-cache" always; try_files $uri @jellyfin; }
+    # many mime.types files lack .mjs; with X-Content-Type-Options: nosniff an octet-stream module is BLOCKED by the browser
+    location ~* [.]mjs$  { types { } default_type text/javascript; gzip_static on; add_header Cache-Control "no-cache" always; try_files $uri @jellyfin; }
+}
+
+location @jellyfin {
+    proxy_pass https://jellyfin_upstream;
+    proxy_set_header Host jellyfin.example.com;
+}

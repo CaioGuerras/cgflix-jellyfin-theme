@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="90 40 8000 1690">
+<defs>
+ <linearGradient id="cgfE" x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0" stop-color="#f3e8ff"/><stop offset=".3" stop-color="#c084fc"/><stop offset=".7" stop-color="#9333ea"/><stop offset="1" stop-color="#581c87"/>
+ </linearGradient>
+ <linearGradient id="cgfL" x1="0" y1="0" x2="0" y2="1">
+  <stop offset="0" stop-color="#ffffff"/><stop offset=".55" stop-color="#ede9fe"/><stop offset="1" stop-color="#c4b5fd"/>
+ </linearGradient>
+ <filter id="cgfBrilho" x="-25%" y="-25%" width="150%" height="150%">
+  <feGaussianBlur in="SourceAlpha" stdDeviation="34" result="b"/>
+  <feFlood flood-color="#a855f7" flood-opacity=".6"/><feComposite in2="b" operator="in" result="s"/>
+  <feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge>
+ </filter>
+</defs>
+<g transform="translate(-49 -65) scale(1.9)"><g filter="url(#cgfBrilho)">
+ <path d="M760.9 281.0A340 340 0 1 0 760.9 719.0" fill="none" stroke="url(#cgfE)" stroke-width="128" stroke-linecap="round"/>
+ <path d="M452 368L452 632L668 500Z" fill="url(#cgfL)" stroke="url(#cgfL)" stroke-width="54" stroke-linejoin="round"/>
+</g></g>
+<g transform="translate(190 140)" filter="url(#cgfBrilho)"><path fill="url(#cgfL)" d="M2400 1510Q2191 1510 2033.0 1417.5Q1875 1325 1787.0 1154.0Q1699 983 1699 747Q1699 506 1790.5 334.0Q1882 162 2039.5 71.0Q2197 -20 2393 -20Q2561 -20 2697.0 44.0Q2833 108 2920.0 220.5Q3007 333 3028 480H2718Q2686 373 2604.0 312.0Q2522 251 2398 251Q2226 251 2117.5 379.0Q2009 507 2009 744Q2009 981 2116.0 1110.0Q2223 1239 2402 1239Q2561 1239 2652.0 1155.0Q2743 1071 2747 928H2423V696H3043V882Q3043 1078 2960.0 1218.5Q2877 1359 2732.0 1434.5Q2587 1510 2400 1510Z M3367 1490V0H4347V253H3672V669H4281V918H3672V1490Z M4659 1490V0H4964V1237H5607V1490Z M6212 0V1490H5907V0Z M6488 1490 7023 728 6536 0H6890L7053 250Q7105 330 7136.0 392.5Q7167 455 7196 516Q7226 456 7258.0 393.0Q7290 330 7342 250L7508 0H7854L7371 719L7898 1490H7536L7329 1178Q7277 1099 7249.5 1049.0Q7222 999 7193 944Q7164 998 7136.0 1048.5Q7108 1099 7055 1178L6841 1490Z"/></g>
+</svg>

@@ -1,0 +1,2 @@
+/* Home Screen Sections: "Upcoming" badge in Brazilian Portuguese (the badge comes from the plugin's CSS, not from text). */
+.upcomingShowCard::before, .upcomingMovieCard::before, .upcomingMusicCard::before, .upcomingBookCard::before { content: "Em breve" !important; }

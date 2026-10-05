@@ -1,0 +1,74 @@
+/* ==========================================================================
+   CGFLIX theme for Jellyfin · purple + OLED black layer on top of ElegantFin
+   https://github.com/CaioGuerras/cgflix-jellyfin-theme · GPL-2.0-or-later
+   Base: ElegantFin by lscambo13 (GPL-2.0) + its Media Bar add-on. Tested on Jellyfin 10.11.
+   Usage: Dashboard > General > Branding > Custom CSS:
+     @import url("https://cdn.jsdelivr.net/gh/CaioGuerras/cgflix-jellyfin-theme@main/cgflix.css");
+   ========================================================================== */
+@import url("https://cdn.jsdelivr.net/gh/lscambo13/ElegantFin@main/Theme/ElegantFin-jellyfin-theme-build-latest-minified.css");
+@import url("https://cdn.jsdelivr.net/gh/lscambo13/ElegantFin@main/Theme/assets/add-ons/media-bar-plugin-support-latest-min.css");
+
+/* 1. CGFLIX palette (overrides ElegantFin variables) */
+:root {
+    --darkerGradientPoint: #07060a;
+    --darkerGradientPointAlpha: rgba(7, 6, 10, .88);
+    --lighterGradientPoint: #15111d;
+    --lighterGradientPointAlpha: rgba(21, 17, 29, .85);
+    --gradientPointAlpha: rgba(21, 17, 29, .3);
+    --headerColor: rgba(11, 9, 16, .78);
+    --drawerColor: rgba(11, 9, 16, .92);
+    --borderColor: #3b3348;
+    --darkerBorderColor: #251f2f;
+    --lighterBorderColor: hsla(270, 60%, 85%, .18);
+    --selectorBackgroundColor: #2b2238;
+    --selectorBackgroundColorAlpha: rgba(43, 34, 56, .55);
+    --accentColor: #9333ea;
+    --accentHoverColor: #a855f7;
+    --semiTransparentAccentColor: rgba(168, 85, 247, .16);
+    --btnSubmitColor: #7e22ce;
+    --btnSubmitBorderColor: #a855f7;
+    --checkboxCheckedBgColor: #9333ea;
+    --highlightOutlineColor: #c084fc;
+    --cgflixLilas: #c084fc;
+}
+
+/* 2. OLED black background with a subtle purple glow on top */
+html, body, .backgroundContainer, .skinBody {
+    background-color: #07060a !important;
+}
+.backgroundContainer.withBackdrop {
+    background: radial-gradient(120% 70% at 50% -10%, rgba(147, 51, 234, .14), rgba(7, 6, 10, 0) 60%), #07060a !important;
+}
+
+/* 3. Cards: lilac outline and lift on focus/hover (works with TV remotes) */
+.card:focus .cardBox .cardScalable,
+.card:hover .cardBox .cardScalable {
+    box-shadow: 0 0 0 2px var(--accentHoverColor), 0 12px 28px -10px rgba(147, 51, 234, .55) !important;
+}
+.itemProgressBarForeground, .playedIndicator, .countIndicator {
+    background-color: var(--accentColor) !important;
+}
+
+/* 4. StreamLimiter plugin dialog in the same look */
+.dialogContainer .dialog:has(.streamLimit),
+.streamLimitDialog {
+    border: 1px solid var(--lighterBorderColor) !important;
+    border-radius: var(--largeRadius) !important;
+    box-shadow: 0 24px 60px -12px rgba(147, 51, 234, .35) !important;
+}
+
+/* 5. Login: poster mosaic (your server's splash screen) behind the form.
+      Change the text with :root { --loginPageText: "Your text"; } (an ElegantFin variable). */
+:root { --loginPageBgUrl: url("/Branding/Splashscreen?format=Webp&quality=70"); }
+#loginPage {
+    background: linear-gradient(to bottom, rgba(7, 6, 10, .82), rgba(21, 17, 29, .94)), var(--loginPageBgUrl) center / cover no-repeat !important;
+}
+.manualLoginForm:before, .visualLoginForm:before {
+    color: var(--cgflixLilas) !important;
+    font-weight: 600 !important;
+    text-shadow: 0 0 22px rgba(192, 132, 252, .45);
+}
+
+/* 6. Purple loading spinners */
+.mdl-spinner__layer-1, .mdl-spinner__layer-2, .mdl-spinner__layer-3, .mdl-spinner__layer-4, .mdl-spinner__circle { border-color: #a855f7 !important; }
+.MuiCircularProgress-root { color: #a855f7 !important; }
