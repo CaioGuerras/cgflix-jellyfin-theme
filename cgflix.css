@@ -33,11 +33,18 @@
 }
 
 /* 2. OLED black background with a subtle purple glow on top */
-html, body, .backgroundContainer, .skinBody {
+html, .skinBody {
+    background-color: #07060a !important;
+}
+/* body stays transparent: the item page backdrop sits below it (z-index -1); a solid body hides the banner */
+body { background-color: transparent !important; }
+/* the veil over the backdrop is translucent, so item banners show through */
+.backgroundContainer:not(.withBackdrop) {
     background-color: #07060a !important;
 }
 .backgroundContainer.withBackdrop {
-    background: radial-gradient(120% 70% at 50% -10%, rgba(147, 51, 234, .14), rgba(7, 6, 10, 0) 60%), #07060a !important;
+    background: radial-gradient(120% 70% at 50% -10%, rgba(147, 51, 234, .14), rgba(7, 6, 10, 0) 60%),
+                linear-gradient(180deg, rgba(7, 6, 10, .20) 0%, rgba(7, 6, 10, .55) 45%, rgba(7, 6, 10, .90) 78%, #07060a 100%) !important;
 }
 
 /* 3. Cards: lilac outline and lift on focus/hover (works with TV remotes) */
@@ -72,3 +79,44 @@ html, body, .backgroundContainer, .skinBody {
 /* 6. Purple loading spinners */
 .mdl-spinner__layer-1, .mdl-spinner__layer-2, .mdl-spinner__layer-3, .mdl-spinner__layer-4, .mdl-spinner__circle { border-color: #a855f7 !important; }
 .MuiCircularProgress-root { color: #a855f7 !important; }
+
+/* 7. Media Bar carousel: text block anchored bottom-left, smaller logo and plot, so the backdrop shows.
+      The plugin placed .slide-content with a negative top: the logo was cut off and the text stuck to the top. */
+#slides-container .slide .slide-content {
+    top: auto !important;
+    bottom: 7% !important;
+    left: 4% !important;
+    max-width: min(44%, 640px) !important;
+}
+#slides-container .slide .gradient-overlay {
+    background: linear-gradient(90deg, rgba(7, 6, 10, .78) 0%, rgba(7, 6, 10, .35) 38%, rgba(7, 6, 10, 0) 62%),
+                linear-gradient(0deg, rgba(7, 6, 10, .55) 0%, rgba(7, 6, 10, 0) 45%) !important;
+}
+#slides-container .slide .logo-container {
+    max-width: min(30vw, 380px) !important;
+    max-height: 14vh !important;
+    margin-bottom: .6em !important;
+}
+#slides-container .slide .logo {
+    max-height: 14vh !important;
+    max-width: 100% !important;
+    width: auto !important;
+    object-fit: contain !important;
+    object-position: left bottom !important;
+}
+#slides-container .slide .plot {
+    font-size: .9em !important;
+    line-height: 1.45 !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, .8);
+}
+#slides-container .slide .spec-line { font-size: .8em !important; }
+@media (max-width: 760px) {
+    #slides-container .slide .slide-content { max-width: 92% !important; left: 4% !important; bottom: 5% !important; }
+    #slides-container .slide .logo-container { max-width: 62vw !important; max-height: 9vh !important; }
+    #slides-container .slide .logo { max-height: 9vh !important; }
+    #slides-container .slide .plot { font-size: .85em !important; }
+}
